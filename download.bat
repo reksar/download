@@ -12,7 +12,7 @@ rem  --------------------------------------------------------------------------
 
 setlocal DisableDelayedExpansion
 
-set url=%~1
+set "url=%~1"
 set outfile=%~2
 
 if "%outfile%" == "" (
