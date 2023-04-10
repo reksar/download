@@ -5,7 +5,7 @@ rem  Downloads content from {url} to {outfile}:
 rem
 rem    download {url} {outfile}
 rem
-rem  NOTE: it is better to set an abs path to {outfile}.
+rem  NOTE: it is recommended to set an abs path to {outfile}.
 rem
 rem  NOTE: requires MS JScript or PowerShell.
 rem  --------------------------------------------------------------------------
@@ -27,8 +27,7 @@ if exist "%outfile%" (
 
 rem  Prefer MS JScript, because it's more native than PowerShell.
 cscript >NUL && (
-  cscript /nologo "%~dp0download.js" "%url%" "%outfile%" ^
-    >NUL && exit /b 0 || exit /b 1
+  cscript /nologo "%~dp0download.js" "%url%" "%outfile%" >NUL && exit /b 0
 )
 
 rem  Deprecated! Downloading with PowerShell.
@@ -37,6 +36,8 @@ powershell -? >NUL && (
   rem  Make intermediate dirs.
   for %%i in ("%outfile%") do if not exist "%%~pi" md "%%~pi"
 
+  rem  NOTE: the `curl` cmd in modern Windows is just an alias for the
+  rem  PowerShell cmdlet, so this method is more general.
   powershell -command ^
     "Invoke-WebRequest -UseBasicParsing -Uri '%url%' -OutFile '%outfile%'" ^
       >NUL && exit /b 0 || exit /b 1
